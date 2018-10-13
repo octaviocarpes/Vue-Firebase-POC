@@ -7,6 +7,7 @@ import router from './router';
 
 Vue.config.productionTip = false;
 
+let app;
 // Initialize Firebase
 const config = {
   apiKey: 'AIzaSyDXPbBlliKa4gWIKYkoKIroqxaZj1-LUIQ',
@@ -16,12 +17,17 @@ const config = {
   storageBucket: 'vue-firebase-tutorial-a9a70.appspot.com',
   messagingSenderId: '170725666184',
 };
+
 firebase.initializeApp(config);
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>',
+firebase.auth().onAuthStateChanged((user) => {
+  if (!app) {
+    /* eslint-disable no-new */
+    new Vue({
+      el: '#app',
+      router,
+      components: { App },
+      template: '<App/>',
+    });
+  }
 });
