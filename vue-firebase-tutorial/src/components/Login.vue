@@ -9,28 +9,27 @@
     </div>
 </template>
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase';
+
 export default {
   name: 'login',
-  data: () => {
-        return {
-            email: '',
-            password: ''
-        };
+  data: () => ({
+    email: '',
+    password: '',
+  }),
+  methods: {
+    signIn() {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        .then(
+          (user) => {
+            this.$router.replace('/hello');
+          },
+          (err) => {
+            alert(`Oops! ${err.message}`);
+          },
+        );
     },
-    methods: {
-        signIn() {
-            firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-            .then(
-                (user) => {
-                    alert('You have successfully logged in!')
-                },
-                (err) => {
-                    alert('Oops! ' + err.message)
-                }
-            )
-        }
-    },
+  },
 };
 </script>
 <style lang="css" scoped>

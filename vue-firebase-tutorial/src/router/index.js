@@ -20,10 +20,18 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser;
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const kappa = to.path !== '/hello';
 
-  if (requiresAuth && !currentUser) next('login');
-  else if (!requiresAuth && currentUser) next('hello');
-  else next();
+  if (requiresAuth && !currentUser) {
+    console.log('redirect to login');
+    next('/login');
+  } else if (!requiresAuth && currentUser && kappa) {
+    console.log('redirect to hello');
+    next('/hello');
+  } else {
+    console.log('redirect to next');
+    next();
+  }
 });
 
 export default router;
